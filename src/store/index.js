@@ -3,8 +3,8 @@ import Vuex from 'vuex'
 import Vue from 'vue'
 
 //Modules
-import login from '@/store/modules/login'
-import navs from '@/store/modules/navs'
+import modules from './modules'
+
 
 //configuracion
 import {
@@ -14,10 +14,7 @@ import {
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
-    login,
-    navs
-  },
+  modules,
   state: {
     connect: false,
     loading: false,
