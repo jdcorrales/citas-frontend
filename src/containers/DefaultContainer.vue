@@ -173,7 +173,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("navs/index");
+    //this.$store.dispatch("navs/index");
   }
 };
 </script>

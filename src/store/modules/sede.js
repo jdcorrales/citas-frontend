@@ -1,21 +1,21 @@
 export default {
   namespaced: true,
   state: {
-    endpoint: 'prestacion',
+    endpoint: 'sede',
     params: {},
     loading: false,
-    prestaciones: [],
+    sedes: [],
   },
   getters: {
     endpoint: (state) => state.endpoint,
     params: (state) => state.params,
     loading: (state) => state.loading,
-    prestaciones: (state) => state.prestaciones
+    sedes: (state) => state.sedes
   },
   mutations: {
     setParams: (state, payload) => state.params = payload,
     setLoading: (state, payload) => state.loading = payload,
-    setPrestaciones: (state, payload) => state.prestaciones = payload
+    setSede: (state, payload) => state.sedes = payload
   },
   actions: {
     index({
@@ -33,7 +33,7 @@ export default {
       })
 
       response.then(data => {
-        commit('setPrestaciones', data)
+        commit('setSede', data)
       }).catch(error => {
         console.log(error)
       }).then(() => {
