@@ -23,6 +23,7 @@
               :plain="true"
               :options="prestaciones"
               v-model="prestacion"
+              @change="changePrestacion"
             ></b-form-select>
           </b-form-group>
         </b-card>
@@ -77,6 +78,7 @@ export default {
   },
   computed: {
     sedes() {
+      this.prestacion = null;
       return [
         ...new Set(
           this.$store.getters["sede/sedes"].map(sede => {
@@ -139,6 +141,9 @@ export default {
     },
     getTurnos(turnos) {
       this.turnos = turnos;
+    },
+    changePrestacion() {
+      this.turnos = [];
     }
   },
   mounted() {
