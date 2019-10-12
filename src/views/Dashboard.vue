@@ -48,7 +48,11 @@
             </div>
             <div class="col-7">
               <div class="agenda items">
-                <button class="btn btn-info" v-for="turno in turnos" :key="turno">{{ turno | moment("h:mm") }}</button>
+                <button
+                  class="btn btn-info"
+                  v-for="turno in turnos"
+                  :key="turno"
+                >{{ turno | moment("h:mm") }}</button>
               </div>
             </div>
           </div>
@@ -82,6 +86,7 @@ export default {
       ];
     },
     prestaciones() {
+      this.turnos = [];
       let prestacion = this.$store.getters["sede/sedes"].filter(
         sede => sede.id == this.sede
       )[0];
@@ -163,7 +168,6 @@ export default {
 .agenda.items {
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
   -ms-flex-flow: wrap;
   flex-flow: wrap;
   -webkit-box-pack: justify;
@@ -176,7 +180,7 @@ export default {
     font-weight: 700;
     line-height: 1;
     text-align: center;
-    width: 23%;
+    width: 120px;
     height: 3rem;
     margin: 2px;
   }
