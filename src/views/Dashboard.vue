@@ -4,20 +4,9 @@
       <b-col cols="12">
         <b-card header-tag="header" footer-tag="footer">
           <div slot="header">
-            <i class="fa fa-align-justify"></i>
+            <!--i class="fa fa-align-justify"></i-->
             <strong>Agendar cita</strong>
-            <div class="card-header-actions">
-              <a
-                href="https://bootstrap-vue.js.org/docs/components/breadcrumb"
-                class="card-header-action"
-                rel="noreferrer noopener"
-                target="_blank"
-              >
-                <!--small class="text-muted">docs</small-->
-              </a>
-            </div>
           </div>
-          <!--b-breadcrumb :items="items"/-->
           <b-form-group label="Sedes" label-for="basicSelectSm" :label-cols="3">
             <b-form-select
               id="basicSelectSm"
@@ -39,6 +28,33 @@
         </b-card>
       </b-col>
     </b-row>
+    <b-row>
+      <b-col cols="12">
+        <b-card header-tag="header" footer-tag="footer">
+          <div slot="header">
+            <!--i class="fa fa-align-justify"></i-->
+            <strong>Agenda</strong>
+          </div>
+          <div class="row">
+            <div class="col-5">
+              <div class="fechas items">
+                <div
+                  class="badge badge-primary text-wrap"
+                  v-for="dia in agenda"
+                  :key="dia.id"
+                  @click="getTurnos(dia.turnos)"
+                >{{ dia.fecha }}</div>
+              </div>
+            </div>
+            <div class="col-7">
+              <div class="agenda items">
+                <button class="btn btn-info" v-for="turno in turnos" :key="turno">{{ turno | moment("h:mm") }}</button>
+              </div>
+            </div>
+          </div>
+        </b-card>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -51,7 +67,8 @@ export default {
   data: function() {
     return {
       sede: null,
-      prestacion: null
+      prestacion: null,
+      turnos: []
     };
   },
   computed: {
@@ -78,20 +95,45 @@ export default {
             )
           ]
         : [];
+    },
+    agenda() {
+      let prestacion = this.$store.getters["sede/sedes"].filter(
+        sede => sede.id == this.sede
+      )[0];
+
+      let agenda =
+        prestacion && this.prestacion
+          ? prestacion.prestacion.filter(
+              prestacion => prestacion.id == this.prestacion
+            )[0]
+          : null;
+
+      return agenda
+        ? [
+            ...new Set(
+              agenda.disponibilidad.map(dias => {
+                return {
+                  id: dias.id,
+                  fecha: dias.dia,
+                  hora_inicial: dias.hora_inicial,
+                  hora_final: dias.hora_final,
+                  turnos: JSON.parse(dias.intervalos)
+                };
+              })
+            )
+          ]
+        : [];
     }
   },
   methods: {
-    getPrestacion() {
-      this.$store
-        .dispatch("prestacion/index")
-        .then(response => {})
-        .catch(() => {});
-    },
     getSede() {
       this.$store
         .dispatch("sede/index")
         .then(response => {})
         .catch(() => {});
+    },
+    getTurnos(turnos) {
+      this.turnos = turnos;
     }
   },
   mounted() {
@@ -100,10 +142,49 @@ export default {
 };
 </script>
 
-<style>
-/* IE fix */
-#card-chart-01,
-#card-chart-02 {
-  width: 100% !important;
+<style lang="scss">
+.fechas.items {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: column;
+  flex-flow: column;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  width: 450px;
+
+  .badge {
+    width: 23%;
+    margin: 0.5px;
+  }
+}
+
+.agenda.items {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: wrap;
+  flex-flow: wrap;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+
+  .btn {
+    color: white;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    width: 23%;
+    height: 3rem;
+    margin: 2px;
+  }
+
+  .large-button {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+  }
 }
 </style>

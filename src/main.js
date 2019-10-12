@@ -6,6 +6,7 @@ import 'core-js/es7/array'
 // import cssVars from 'css-vars-ponyfill'
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
+import VueMoment from 'vue-moment'
 
 // Componentes
 import App from './App'
@@ -25,6 +26,7 @@ import {
 // cssVars()
 
 Vue.use(BootstrapVue)
+Vue.use(VueMoment)
 
 Vue.config.productionTip = false
 
