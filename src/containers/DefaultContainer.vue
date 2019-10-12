@@ -4,7 +4,7 @@
       <b-spinner variant="light" label="Text Centered" />
     </div>
     <AppHeader fixed>
-      <SidebarToggler class="d-lg-none" display="md" mobile />
+      <!--SidebarToggler class="d-lg-none" display="md" mobile />
       <b-link class="navbar-brand" to="/dashboard">
         <img
           class="navbar-brand-full"
@@ -21,7 +21,7 @@
           alt="CoreUI Logo"
         />
       </b-link>
-      <SidebarToggler class="d-md-down-none" display="lg" />
+      <SidebarToggler class="d-md-down-none" display="lg" /-->
       <b-navbar-nav class="ml-auto">
         <b-nav-item :class="nav.class" v-for="(nav, key) in navbar" :key="key">
           <AppHeaderDropdown right no-caret v-if="'children' in nav">
@@ -50,17 +50,17 @@
           <b-badge pill :variant="nav.badge.variant" v-if="nav.badge">{{ nav.badge.text }}</b-badge>
         </b-nav-item>
       </b-navbar-nav>
-      <AsideToggler class="d-none d-lg-block" />
-      <AsideToggler class="d-lg-none" mobile />
+      <!--AsideToggler class="d-none d-lg-block" />
+      <AsideToggler class="d-lg-none" mobile /-->
     </AppHeader>
     <div class="app-body">
-      <AppSidebar fixed>
+      <!--AppSidebar fixed>
         <SidebarHeader />
         <SidebarForm />
         <SidebarNav :navItems="sidebar"></SidebarNav>
         <SidebarFooter />
         <SidebarMinimizer />
-      </AppSidebar>
+      </AppSidebar-->
       <main class="main">
         <Breadcrumb :list="list" />
         <div class="container-fluid">
@@ -131,17 +131,6 @@ export default {
         route => route.name || route.meta.label
       );
     },
-    sidebar() {
-      return this.$store.getters["navs/navs"].length
-        ? [
-            ...new Set(
-              this.$store.getters["navs/navs"].find(
-                el => el.descripcion === "sidebar"
-              ).children
-            )
-          ]
-        : [];
-    },
     navbar() {
       return this.$store.getters["navs/navs"].length
         ? [
@@ -173,7 +162,7 @@ export default {
     }
   },
   mounted() {
-    //this.$store.dispatch("navs/index");
+    this.$store.dispatch("navs/index");
   }
 };
 </script>
